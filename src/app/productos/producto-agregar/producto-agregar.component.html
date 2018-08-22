@@ -1,0 +1,161 @@
+<form (ngSubmit)="onSubmit(productoForm)" #productoForm="ngForm">
+	<div class="row">
+		<div class="col-6">
+			<div class="form-group">
+				<label for="name">Nombre</label>
+				<input type="text" class="form-control" id="name" placeholder="Nombre"
+				required
+				[(ngModel)]="producto.nombre" name="nombre"
+				#nombre="ngModel" [disabled]="action=='ver' || authService.loggedUser.rol != 1">
+				<div [hidden]="nombre.valid || nombre.pristine" class="alert alert-danger">
+					<div *ngIf="nombre.errors && nombre.errors.required">
+						El Nombre es requerido
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="descripcion">Descripción</label>
+				<input type="text" class="form-control" id="descripcion" placeholder="Descripción"
+				[(ngModel)]="producto.descripcion" name="descripcion" #descripcion="ngModel" required [disabled]="action=='ver' || authService.loggedUser.rol != 1">
+				<div [hidden]="descripcion.valid || descripcion.pristine" class="alert alert-danger">
+					La descripción es requerida
+				</div>
+			</div>
+
+			<div class="form-group">
+				<!-- <div class="col-8"> -->
+					<label for="precio">Precio Sin Impuestos</label>
+					<input type="text" 
+						class="form-control" 
+						id="precio" name="precio"
+						[(ngModel)]="producto.precio"  
+						#precio="ngModel" 
+						required pattern="^[1-9][0-9]*$" [disabled]="action=='ver' || authService.loggedUser.rol != 1">
+				<!-- </div> -->
+				<!-- <div class="col-4">
+					<label for="precio">ivi</label>
+					<input type="checkbox" 
+						class="form-control" 
+						id="ivi" name="ivi"
+						[(ngModel)]="ivi"
+						[disabled]="action=='ver'">
+				</div> -->
+				<div [hidden]="precio.valid || precio.pristine" class="alert alert-danger" *ngIf="precio.errors && precio.errors.required">
+					El precio es requerido
+				</div>
+				<div [hidden]="precio.valid || precio.pristine" class="alert alert-danger" *ngIf="precio.errors && precio.errors.pattern">
+					El precio deben ser números
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="marca">Marca</label>
+				<input type="text" class="form-control" id="marca" placeholder="Marca"
+				[(ngModel)]="producto.marca" name="marca"
+				#marca="ngModel" [disabled]="action=='ver' || authService.loggedUser.rol != 1">
+			</div>
+
+			<div class="form-group">
+				<label for="codigo">Código</label>
+				<input type="text" class="form-control" id="codigo" placeholder="Código"
+				[(ngModel)]="producto.codigo" name="codigo" #codigo="ngModel" required [disabled]="action=='ver' || authService.loggedUser.rol != 1">
+				<div [hidden]="codigo.valid || codigo.pristine" class="alert alert-danger">
+					El código es requerido
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="impuestos">Impuestos</label>
+				<input type="text" 
+					class="form-control" 
+					id="impuestos" name="impuestos"
+					[(ngModel)]="producto.impuestos"  
+					#impuestos="ngModel" 
+					pattern="[0-9]*" [disabled]="action=='ver' || authService.loggedUser.rol != 1">
+				<div [hidden]="impuestos.valid || impuestos.pristine" class="alert alert-danger" *ngIf="impuestos.errors && impuestos.errors.pattern">
+					El impuestos deben ser números
+				</div>
+			</div>
+		</div>
+		<div class="col-6">
+			<div class="form-group" *ngIf="action != 'agregar'">
+				<label for="cantidad">Cantidad Disponible</label>
+				<input type="text" 
+					class="form-control" 
+					id="cantidad" name="cantidad"
+					[(ngModel)]="producto.cantidad"  
+					#cantidad="ngModel" 
+					required pattern="^[1-9][0-9]*$" [disabled]="action=='ver'">
+				<div [hidden]="cantidad.valid || cantidad.pristine" class="alert alert-danger" *ngIf="cantidad.errors && cantidad.errors.required">
+					La cantidad disponibles es requerida
+				</div>
+				<div [hidden]="cantidad.valid || cantidad.pristine" class="alert alert-danger" *ngIf="cantidad.errors && cantidad.errors.pattern">
+					La cantidad disponibles deben ser números
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="descuento">Descuento</label>
+				<input type="text" 
+					class="form-control" 
+					id="descuento" name="descuento"
+					[(ngModel)]="producto.descuento"  
+					#descuento="ngModel" 
+					pattern="[0-9]*" [disabled]="action=='ver' || authService.loggedUser.rol != 1">
+				<div [hidden]="descuento.valid || descuento.pristine" class="alert alert-danger" *ngIf="descuento.errors && descuento.errors.pattern">
+					El descuento deben ser números
+				</div>
+			</div>
+
+			<div class="form-group" *ngIf="producto.descuento && producto.descuento > 0">
+				<label for="descuento_tipo">Tipo de descuento </label>
+				<select [(ngModel)]="producto.descuento_tipo" name="descuento_tipo" class="form-control" [disabled]="action=='ver' || authService.loggedUser.rol != 1"> 
+				    <option value="1" selected="">Colones</option>
+				    <option value="2">%</option>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label for="categoria">Categoría </label>
+				<select [(ngModel)]="producto.categoria" name="categoria" class="form-control" [disabled]="action=='ver' || authService.loggedUser.rol != 1"> 
+				    <option value="1" selected="">Hogar</option>
+				    <option value="2">Ferretería</option>
+				    <option value="3">Limpieza</option>
+				    <option value="4">Alimentos</option>
+				    <option value="5">Ropa</option>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label for="estado">Estado </label>
+				<select [(ngModel)]="producto.estado" name="estado" class="form-control" [disabled]="action=='ver' || authService.loggedUser.rol != 1"> 
+				    <option value="true" selected="">Activo</option>
+				    <option value="false">Pendiente</option>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label for="unidad">Unidad </label>
+				<select [(ngModel)]="producto.unidad" name="unidad" class="form-control" [disabled]="action=='ver' || authService.loggedUser.rol != 1"> 
+				    <option value="gramo" selected="">Kilo</option>
+				    <option value="litro">Litro</option>
+				    <option value="paquete">Paquete</option>
+				    <option value="unidad">Unidad</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<p *ngIf="errorDisplay" class="error">{{errorDisplay}}</p>
+	<div *ngIf="action!='ver'">
+		<button *ngIf="action!='borrar'" type="submit" class="btn btn-success" [disabled]="!productoForm.form.valid || !canAdd">
+			<span *ngIf="action=='agregar'">Agregar</span>
+			<span *ngIf="action=='editar'">Editar</span>
+		</button>
+		<button *ngIf="action=='borrar'" type="button" class="btn btn-danger" (click)="eliminar()">
+			Eliminar
+		</button>
+		<!-- <button *ngIf="action!='borrar'" type="button" class="btn btn-danger" (click)="newProducto(); productoForm.reset()">		Deshacer cambios
+		</button> -->
+	</div>
+	<!-- <button type="button" class="btn btn-danger" (click)="newProducto(); productoForm.reset()">Eliminar</button> -->
+</form>
