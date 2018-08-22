@@ -3091,12 +3091,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var DataService = /** @class */ (function () {
-    // public host = 'http://localhost:8080';
-    // public host = 'http://kyrapps.com:9008';
     function DataService(http) {
         this.http = http;
         // public host = '';
-        this.host = 'http://localhost:9008';
+        // public host = 'http://localhost:9009';
+        // public host = 'http://localhost:8080';
+        // public host = 'http://kyrapps.com:9008';    
+        this.host = 'http://kyrapps.com:9009';
     }
     DataService.prototype.search = function (url, element) {
         var options;
