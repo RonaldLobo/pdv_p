@@ -17,9 +17,11 @@ import 'rxjs/add/observable/throw';
 @Injectable()
 export class DataService {
     // public host = '';
-    public host = 'http://localhost:9008';
+    // public host = 'http://localhost:9009';
     // public host = 'http://localhost:8080';
-    // public host = 'http://kyrapps.com:9008';
+    // public host = 'http://kyrapps.com:9008';    
+    public host = 'http://kyrapps.com:9009';
+
     constructor(
         public http: Http
     ) { }
